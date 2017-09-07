@@ -1,0 +1,23 @@
+{
+  "name": "asassignment3-team2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIT3140-S2-2017/assignment3-team2.git"
+  },
+  "author": "James and Dekel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FIT3140-S2-2017/assignment3-team2/issues"
+  },
+  "homepage": "https://github.com/FIT3140-S2-2017/assignment3-team2#readme",
+  "dependencies": {
+    "firebase-admin": "^5.2.1",
+    "nodemailer": "^4.1.0"
+  }
+}
