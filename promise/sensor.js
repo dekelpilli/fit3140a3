@@ -11,6 +11,8 @@ var db = admin.database()
 var ref = db.ref('/motionCount')
 
 var five = require("johnny-five")
+var board = new five.Board()
+
 
 board.on("ready", function () {
   // interfaces for led and motion detector
@@ -23,19 +25,19 @@ board.on("ready", function () {
   // turn LED on and measure starting time
   motion.on("motionstart", function () {
       led.on()
-      startTime = new Date()
+      startTime = new Date().toISOString()
   })
 
   // calculate time motion was detected using end time of motion
   motion.on("motionend", function () {
       led.off()
-      endTime = new Date()
+      endTime = new Date().toISOString()
       if (startTime != null) {
+        //add to firebase
             ref.push({
-              start: startTime.getISOString(),
-              end: endTime.getISOString()
+              start: startTime,
+              end: endTime
             })
           }
-          console.log(motionType + " motion detected (" + secondsDiff + " seconds)")
-      })
+         })
     })
