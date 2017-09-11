@@ -1,15 +1,13 @@
-var authInfo = require("./email-info.json")
+var gmail = require("./email-info.json")
+var auth = require("./gmail-nodejs-quickstart.json")
 var nodemailer = require("nodemailer")
 
 module.exports = {
     // sends email
-    // TO CHECK:
-    // user: 'erdciqdkwzmf3eh6@ethereal.email',
-    // pass: 'Jm1ddE7yy8Wt1jkdgg'
     sendMail: function (subject, message, transporter) {
         var mailOptions = {
-            from: authInfo.username, // sender address
-            to: 'erdciqdkwzmf3eh6@ethereal.email', // list of receivers
+            from: gmail.username, // sender address
+            to: gmail.username, // list of receivers
             subject: subject, // Subject line
             text: message // plain text body
         }
@@ -23,7 +21,7 @@ module.exports = {
         })
     },
 
-    receive: function (snapshot, nodemailer) {
+    receive: function (snapshot) {
 
         var motions = []
         var longMotionCount = 0
@@ -33,8 +31,8 @@ module.exports = {
         var transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {
-                user: authInfo.username,
-                pass: authInfo.password
+                user: gmail.username,
+                pass: gmail.password
             }
         })
 

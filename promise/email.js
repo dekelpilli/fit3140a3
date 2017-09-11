@@ -16,7 +16,7 @@ ref.on("value", function (snapshot) {
     console.log("The read failed: " + errorObject.code)
 })
 
-ref.push({
-    end: "1505042630663",
-    start: "1505042628836"
-})
+// ref.push({
+//     end: "1505042630663",
+//     start: "1505042628836"
+// })
