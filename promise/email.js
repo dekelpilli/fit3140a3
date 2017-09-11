@@ -1,5 +1,4 @@
 var admin = require("firebase-admin")
-var nodemailer = require("nodemailer")
 
 var serviceAccount = require("../serviceAccountKey.json")
 var email = require("../base_code/base_email.js")
@@ -10,26 +9,15 @@ admin.initializeApp({
 })
 
 var db = admin.database()
-var ref = db.ref("/")
 var ref = db.ref("/motionCount")
 
 ref.on("value", function (snapshot) {
-    email.email()
+    email.receive(snapshot)
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code)
 })
 
-// ref.push({
-//     startTime: 1,
-//     endTime: 10
-// })
-
-// ref.push({
-//     startTime: 11,
-//     endTime: 13
-// })
-
-// ref.push({
-//     startTime: 15,
-//     endTime: 25
-// })
+ref.push({
+    end: "1505042630663",
+    start: "1505042628836"
+})

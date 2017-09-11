@@ -1,57 +1,61 @@
-function email() {
-    var motions = []
-    var longMotionCount = 0
-    var shortMotionCount = 0
-    
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: 'hfuovg6xu7llkfck@ethereal.email',
-            pass: 'ScyPuBjkG3jwHKsCjr'
-        }
-    })
-    
+var nodemailer = require("nodemailer")
+
+module.exports = {
     // sends email
-    function sendMail(subject, message) {
+    sendMail: function (subject, message, transporter) {
         var mailOptions = {
-            from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
-            to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+            from: '"Jekyll Hyde" <erdciqdkwzmf3eh6@ethereal.email>', // sender address
+            to: 'erdciqdkwzmf3eh6@ethereal.email', // list of receivers
             subject: subject, // Subject line
             text: message // plain text body
         }
-    
+
         // send mail with defined transport object
-        transporter.sendMail(mailOptions, function(error, info) {
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 return console.log(error);
             }
             console.log('Message sent: %s', info.messageId)
-            // Preview only available when sending through an Ethereal account
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
         })
-    }
-    
-    // iterating through each motion, 
-    // categorising based on length, and adding it to an array
-    snapshot.forEach(function (motion) {
-        motionLength = parseFloat(motion.val().endTime) - parseFloat(motion.val().startTime)
-        if (motionLength > 5.0) {
-            longMotionCount++
-        } else {
-            shortMotionCount++
+    },
+
+    receive: function (snapshot) {
+
+        var motions = []
+        var longMotionCount = 0
+        var shortMotionCount = 0
+
+        // create reusable transporter object using the default SMTP transport
+        var transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'erdciqdkwzmf3eh6@ethereal.email',
+                pass: 'Jm1ddE7yy8Wt1jkdgg'
+            }
+        })
+
+        // iterating through each motion, 
+        // categorising based on length, and adding it to an array
+        snapshot.forEach(function (motion) {
+            motionLength = parseFloat(motion.val().end) - parseFloat(motion.val().start)
+            // converting to seconds
+            motionLength = Math.round(motionLength / 1000)
+            if (motionLength > 5.0) {
+                longMotionCount++
+            } else {
+                shortMotionCount++
+            }
+            motions.push(motionLength)
+        })
+
+        // getting the latest motion, and sending an email if it was long
+        lastMotionLength = motions[motions.length - 1]
+        if (lastMotionLength  > 5.0) {
+            module.exports.sendMail("Long Motion", "A long motion has occurred.", transporter)
         }
-        motions.push(motion)
-    })
-    
-    // getting the latest motion, and sending an email if it was long
-    lastMotion = motions[motions.length - 1].val()
-    lastMotionLength = parseFloat(lastMotion.endTime) - parseFloat(lastMotion.startTime)
-    if (lastMotionLength > 5.0) {
-        sendMail("Long Motion", "A long motion has occurred.")
+
+        module.exports.sendMail("Motion report", longMotionCount + " long motions, and "
+            + shortMotionCount + " short motions have been detected in total.", transporter)
     }
-    
-    sendMail("Motion report", longMotionCount + " long motions, and "
-            + shortMotionCount + " short motions have been detected in total.")    
 }

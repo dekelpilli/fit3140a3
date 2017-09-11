@@ -25,13 +25,13 @@ board.on("ready", function () {
   // turn LED on and measure starting time
   motion.on("motionstart", function () {
       led.on()
-      startTime = new Date().toISOString()
+      startTime = new Date().getTime()
   })
 
   // calculate time motion was detected using end time of motion
   motion.on("motionend", function () {
       led.off()
-      endTime = new Date().toISOString()
+      endTime = new Date().getTime()
       if (startTime != null) {
         //add to firebase
             ref.push({
