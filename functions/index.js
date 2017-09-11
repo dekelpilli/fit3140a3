@@ -1,7 +1,7 @@
-var admin = require("firebase-functions")
-var email = require("../base_code/base_email.js")
+const functions = require("firebase-functions")
+const email = require("./base_code/base_email.js")
 
 exports.updateData = functions.database.ref('/motionCount')
-    .onValue(snapshot => {
-        email.receive(snapshot)
+    .onWrite(event => {
+        email.receive(event.data)
     })

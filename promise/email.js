@@ -1,7 +1,6 @@
 var admin = require("firebase-admin")
-
 var serviceAccount = require("../serviceAccountKey.json")
-var email = require("../base_code/base_email.js")
+var email = require("../functions/base_code/base_email.js")
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

@@ -1,10 +1,14 @@
+var authInfo = require("./email-info.json")
 var nodemailer = require("nodemailer")
 
 module.exports = {
     // sends email
+    // TO CHECK:
+    // user: 'erdciqdkwzmf3eh6@ethereal.email',
+    // pass: 'Jm1ddE7yy8Wt1jkdgg'
     sendMail: function (subject, message, transporter) {
         var mailOptions = {
-            from: '"Jekyll Hyde" <erdciqdkwzmf3eh6@ethereal.email>', // sender address
+            from: authInfo.username, // sender address
             to: 'erdciqdkwzmf3eh6@ethereal.email', // list of receivers
             subject: subject, // Subject line
             text: message // plain text body
@@ -19,7 +23,7 @@ module.exports = {
         })
     },
 
-    receive: function (snapshot) {
+    receive: function (snapshot, nodemailer) {
 
         var motions = []
         var longMotionCount = 0
@@ -27,11 +31,10 @@ module.exports = {
 
         // create reusable transporter object using the default SMTP transport
         var transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
+            service: "Gmail",
             auth: {
-                user: 'erdciqdkwzmf3eh6@ethereal.email',
-                pass: 'Jm1ddE7yy8Wt1jkdgg'
+                user: authInfo.username,
+                pass: authInfo.password
             }
         })
 
